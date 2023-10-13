@@ -4,6 +4,8 @@ github.com/gammazero/deque v0.2.1/go.mod h1:LFroj8x4cMYCukHJDbxFCkT+r9AndaJnFMuZ
 github.com/jszwec/csvutil v1.8.0/go.mod h1:/E4ONrmGkwmWsk9ae9jpXnv9QT8pLHEPcCirMFhxG9I=
 github.com/mewkiz/pkg v0.0.0-20231012081350-95d6616c5403 h1:S+RRgX+Gr0wP7GMnoXciVzxJ04AFGE2fIEvDb554NWs=
 github.com/mewkiz/pkg v0.0.0-20231012081350-95d6616c5403/go.mod h1:15wLZDnu0ecuXH4HtKH2GMVTDmg1HBtG6apAFQWr480=
+github.com/mewspring/wandi v0.0.0-20210824222811-a0a146afb463 h1:SrgRNxB6/mgqIH8I9T6LzmZLiD5mxiDvgvf+rJCed3k=
+github.com/mewspring/wandi v0.0.0-20210824222811-a0a146afb463/go.mod h1:Sf2NcF9EI0X1QCK7O2tTzp0E+50IFWHMBDGjAMSJLCU=
 github.com/mewspring/we v0.0.0-20231013173124-4d6e5b9e39b3 h1:pweM7vhhNhMWigBwDWXBmFc5PMDQ7M3XPuIgpJ4YSHg=
 github.com/mewspring/we v0.0.0-20231013173124-4d6e5b9e39b3/go.mod h1:oV2hexc+umTVhKk/q2a3ktSWCZCGg6WDAy8NS2JW14k=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=

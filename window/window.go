@@ -1,3 +1,5 @@
+// ref: https://www.raylib.com/cheatsheet/cheatsheet.html
+
 // Package window handles window creation, drawing and events. It uses a small
 // subset of the features provided by the raylib library version 4.5.
 package window
@@ -8,12 +10,15 @@ package window
 import "C"
 
 import (
+	"fmt"
 	"image"
+	"image/color"
 	"io"
 	"log"
 	"os"
 
 	"github.com/mewkiz/pkg/term"
+	"github.com/mewspring/wandi"
 )
 
 var (
@@ -35,7 +40,7 @@ func init() {
 const debug = true
 
 // A Window represents a graphical window capable of handling draw operations
-// and window events.
+// and window events. It implements the wandi.Window interface.
 type Window struct {
 }
 
@@ -45,6 +50,7 @@ type Window struct {
 // window.
 func Open(width, height int) (*Window, error) {
 	const title = "raylib"
+	C.SetTraceLogLevel(C.LOG_WARNING)
 	C.InitWindow(C.int(width), C.int(height), C.CString(title))
 	// TODO: figure out how to detect errors.
 	win := &Window{}
@@ -52,10 +58,8 @@ func Open(width, height int) (*Window, error) {
 }
 
 // Close closes the window.
-func (*Window) Close() error {
+func (*Window) Close() {
 	C.CloseWindow()
-	// TODO: figure out how to detect errors.
-	return nil
 }
 
 // SetTitle sets the title of the window.
@@ -87,6 +91,33 @@ func (*Window) Height() int {
 	return height
 }
 
+// Draw draws the entire src image onto the window starting at the destination
+// point dp.
+func (win *Window) Draw(dp image.Point, src wandi.Image) error {
+	sr := image.Rect(0, 0, src.Width(), src.Height()) // TODO: add support for subimages; bounds.Min instead of (0,0).
+	return win.DrawRect(dp, src, sr)
+}
+
+// DrawRect draws a subset of the src image, as defined by the source rectangle
+// sr, onto the window starting at the destination point dp.
+func (win *Window) DrawRect(dp image.Point, src wandi.Image, sr image.Rectangle) error {
+	switch src := src.(type) {
+	case *Texture:
+		_sr := raylibRectangle(sr)
+		_dp := vector2FromPoint(dp)
+		_tint := raylibColor(color.White)
+		C.DrawTextureRec(src._tex, _sr, _dp, _tint)
+	default:
+		panic(fmt.Errorf("support for image format %T not yet implemented", src))
+	}
+	return nil
+}
+
+// Clear clears the entire window with the given color.
+func (win *Window) Clear(c color.Color) {
+	C.ClearBackground(raylibColor(c))
+}
+
 // Display displays what has been rendered so far to the window.
 func (*Window) Display() {
 	// draw everything + SwapScreenBuffer + PollInputEvents.
@@ -109,4 +140,38 @@ func (*Window) SetCursorPos(pt image.Point) {
 	C.SetMousePosition(C.int(pt.X), C.int(pt.Y))
 }
 
-// ref: https://www.raylib.com/cheatsheet/cheatsheet.html
+// ### [ Helper functions ] ####################################################
+
+// raylibRectangle converts the given Go rectangle to the corresponding raylib
+// rectangle.
+func raylibRectangle(rect image.Rectangle) C.Rectangle {
+	return C.Rectangle{
+		x:      C.float(rect.Min.X),
+		y:      C.float(rect.Min.Y),
+		width:  C.float(rect.Dx()),
+		height: C.float(rect.Dy()),
+	}
+}
+
+// vector2FromPoint converts the given Go point to the corresponding raylib
+// vector2.
+func vector2FromPoint(pt image.Point) C.Vector2 {
+	return C.Vector2{
+		x: C.float(pt.X),
+		y: C.float(pt.Y),
+	}
+}
+
+// raylibColor converts the given Go color to the corresponding raylib color.
+func raylibColor(c color.Color) C.Color {
+	r, g, b, a := c.RGBA()
+	return C.Color{
+		r: C.uchar(r & 0xFF),
+		g: C.uchar(g & 0xFF),
+		b: C.uchar(b & 0xFF),
+		a: C.uchar(a & 0xFF),
+	}
+}
+
+// Ensure that Window implements wandi.Window.
+var _ wandi.Window = (*Window)(nil)
