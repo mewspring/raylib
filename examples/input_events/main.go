@@ -1,4 +1,5 @@
-// The input_events example creates a new window and handles input events.
+// The input_events example demonstrates how to create a new window and handle
+// input events.
 package main
 
 import (

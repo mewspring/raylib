@@ -21,3 +21,13 @@ go install -v github.com/mewspring/raylib/examples/input_events@master
 ```
 
 ![Screenshot - input_events](https://raw.githubusercontent.com/mewspring/raylib/master/examples/input_events/input_events.png)
+
+### tiny
+
+The [tiny](https://github.com/mewspring/raylib/blob/master/examples/tiny/main.go#L60) command demonstrates how to render images onto the window using [Window.Draw](http://godoc.org/github.com/mewspring/raylib/window#Window.Draw) and [Window.DrawRect](http://godoc.org/github.com/mewspring/raylib/window#Window.DrawRect). It also gives an example of a basic event loop.
+
+```bash
+go install -v github.com/mewspring/raylib/examples/tiny@master
+```
+
+![Screenshot - tiny](https://raw.githubusercontent.com/mewspring/raylib/master/examples/tiny/tiny.png)
