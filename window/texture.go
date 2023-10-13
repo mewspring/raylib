@@ -17,7 +17,7 @@ import (
 // Texture represent a read-only texture. It implements the wandi.Image
 // interface.
 type Texture struct {
-	// A read-only GPU texture.
+	// underlying raylib texture.
 	_tex C.Texture2D
 }
 

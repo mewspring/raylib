@@ -4,6 +4,7 @@
 // subset of the features provided by the raylib library version 4.5.
 package window
 
+// #include <stdlib.h>
 // #include <raylib.h>
 //
 //#cgo LDFLAGS: -lraylib
@@ -107,6 +108,9 @@ func (win *Window) DrawRect(dp image.Point, src wandi.Image, sr image.Rectangle)
 		_dp := vector2FromPoint(dp)
 		_tint := raylibColor(color.White)
 		C.DrawTextureRec(src._tex, _sr, _dp, _tint)
+	case *Text:
+		_dp := vector2FromPoint(dp)
+		C.DrawTextEx(src.font._font, src._str, _dp, C.float(src.fontSize), defaultSpacing, raylibColor(src.c))
 	default:
 		panic(fmt.Errorf("support for image format %T not yet implemented", src))
 	}
