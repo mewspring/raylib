@@ -31,3 +31,13 @@ go install -v github.com/mewspring/raylib/examples/tiny@master
 ```
 
 ![Screenshot - tiny](https://raw.githubusercontent.com/mewspring/raylib/master/examples/tiny/tiny.png)
+
+### fonts
+
+The [fonts](https://github.com/mewspring/raylib/blob/master/examples/fonts/main.go#L45) command demonstrates how to render text using TTF fonts.
+
+```bash
+go install -v github.com/mewspring/raylib/examples/fonts@master
+```
+
+![Screenshot - fonts](https://raw.githubusercontent.com/mewspring/raylib/master/examples/fonts/fonts.png)

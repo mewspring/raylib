@@ -60,8 +60,7 @@ func example() error {
 		// Clear the window with white color.
 		win.Clear(color.White)
 		// Draw the entire background texture onto the window.
-		err = win.Draw(image.ZP, bg)
-		if err != nil {
+		if err := win.Draw(image.Pt(0, 0), bg); err != nil {
 			return errors.WithStack(err)
 		}
 		// Draw a subset of the foreground texture, as defined by the source
@@ -69,8 +68,7 @@ func example() error {
 		// destination point (10, 10).
 		dp := image.Pt(10, 10)
 		sr := image.Rect(90, 90, 225, 225)
-		err = win.DrawRect(dp, fg, sr)
-		if err != nil {
+		if err := win.DrawRect(dp, fg, sr); err != nil {
 			return errors.WithStack(err)
 		}
 
