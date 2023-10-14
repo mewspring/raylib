@@ -17,6 +17,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"runtime"
 
 	"github.com/mewkiz/pkg/term"
 	"github.com/mewspring/wandi"
@@ -39,6 +40,11 @@ func init() {
 
 // Enable debug output.
 const debug = true
+
+func init() {
+	// Ensure that main goroutine runs on dedicated thread.
+	runtime.LockOSThread()
+}
 
 // A Window represents a graphical window capable of handling draw operations
 // and window events. It implements the wandi.Window interface.
