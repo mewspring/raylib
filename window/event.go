@@ -248,9 +248,9 @@ func fillEventQueue() {
 	// fill keyboard key press events since last frame.
 	const (
 		raylibKeyMin raylibKeyType = 1   // `key > 0` in IsKeyPressed (ref: raylib/src/rcore.c)
-		raylibKeyMax raylibKeyType = 512 // MAX_KEYBOARD_KEYS=512 (ref: raylib/src/rcore.h)
+		raylibKeyMax raylibKeyType = 512 // MAX_KEYBOARD_KEYS=512 (ref: raylib/src/rcore.c)
 	)
-	for raylibKey := raylibKeyMin; raylibKey <= raylibKeyMax; raylibKey++ {
+	for raylibKey := raylibKeyMin; raylibKey < raylibKeyMax; raylibKey++ {
 		if C.IsKeyPressed(raylibKey) {
 			key, ok := keyFromRaylibKey[raylibKey]
 			if !ok {
@@ -268,7 +268,7 @@ func fillEventQueue() {
 		}
 	}
 	// fill keyboard key release events since last frame.
-	for raylibKey := raylibKeyMin; raylibKey <= raylibKeyMax; raylibKey++ {
+	for raylibKey := raylibKeyMin; raylibKey < raylibKeyMax; raylibKey++ {
 		if C.IsKeyReleased(raylibKey) {
 			key, ok := keyFromRaylibKey[raylibKey]
 			if !ok {

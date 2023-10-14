@@ -150,6 +150,11 @@ func (*Window) SetCursorPos(pt image.Point) {
 	C.SetMousePosition(C.int(pt.X), C.int(pt.Y))
 }
 
+// DrawFPS draws the current FPS at the specified point.
+func DrawFPS(pt image.Point) {
+	C.DrawFPS(C.int(pt.X), C.int(pt.Y))
+}
+
 // ### [ Helper functions ] ####################################################
 
 // raylibRectangle converts the given Go rectangle to the corresponding raylib
