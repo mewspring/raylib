@@ -82,12 +82,49 @@ func (tex *Texture) Height() int {
 func (tex *Texture) Image() image.Image {
 	_img := C.LoadImageFromTexture(tex._tex)
 	var npixelBytes int
+	var getPixel func(data []byte) color.Color
 	defer C.UnloadImage(_img)
 	switch _img.format {
+	case C.PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA:
+		npixelBytes = 2 // gray alpha
+		getPixel = func(data []byte) color.Color {
+			gray := data[0]
+			a := data[1]
+			return color.RGBA{
+				R: gray,
+				G: gray,
+				B: gray,
+				A: a,
+			}
+		}
 	case C.PIXELFORMAT_UNCOMPRESSED_R8G8B8:
 		npixelBytes = 3 // RGB
+		getPixel = func(data []byte) color.Color {
+			r := data[0]
+			g := data[1]
+			b := data[2]
+			a := uint8(0xFF)
+			return color.RGBA{
+				R: r,
+				G: g,
+				B: b,
+				A: a,
+			}
+		}
 	case C.PIXELFORMAT_UNCOMPRESSED_R8G8B8A8:
 		npixelBytes = 4 // RGBA
+		getPixel = func(data []byte) color.Color {
+			r := data[0]
+			g := data[1]
+			b := data[2]
+			a := data[3]
+			return color.RGBA{
+				R: r,
+				G: g,
+				B: b,
+				A: a,
+			}
+		}
 	default:
 		panic(fmt.Errorf("support for image format %d not yet implemented", _img.format))
 	}
@@ -98,20 +135,8 @@ func (tex *Texture) Image() image.Image {
 	data := unsafe.Slice((*byte)(_img.data), width*height*npixelBytes)
 	for x := 0; x < width; x++ {
 		for y := 0; y < height; y++ {
-			pos := y*width*npixelBytes + x
-			r := data[pos+0]
-			g := data[pos+1]
-			b := data[pos+2]
-			a := uint8(0xFF)
-			if npixelBytes == 4 {
-				a = data[pos+3]
-			}
-			c := color.RGBA{
-				R: r,
-				G: g,
-				B: b,
-				A: a,
-			}
+			pos := (y*width + x) * npixelBytes
+			c := getPixel(data[pos : pos+npixelBytes])
 			dst.Set(x, y, c)
 		}
 	}
