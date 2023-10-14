@@ -81,6 +81,7 @@ func (tex *Texture) Height() int {
 // Image converts the texture to a corresponding Go image.Image.
 func (tex *Texture) Image() image.Image {
 	_img := C.LoadImageFromTexture(tex._tex)
+	defer C.UnloadImage(_img)
 	if _img.format != C.PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 {
 		panic(fmt.Errorf("support for image format %d not yet implemented", _img.format))
 	}
