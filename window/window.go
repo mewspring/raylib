@@ -132,6 +132,7 @@ func (win *Window) Clear(c color.Color) {
 func (*Window) Display() {
 	// draw everything + SwapScreenBuffer + PollInputEvents.
 	C.EndDrawing()
+	C.BeginDrawing()
 	// populate the input event queue.
 	fillEventQueue()
 }
