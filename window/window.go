@@ -14,32 +14,10 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-	"io"
-	"log"
-	"os"
 	"runtime"
 
-	"github.com/mewkiz/pkg/term"
 	"github.com/mewspring/wandi"
 )
-
-var (
-	// dbg is a logger with the "raylib:" prefix which logs debug messages to
-	// standard error.
-	dbg = log.New(os.Stderr, term.MagentaBold("raylib:")+" ", 0)
-	// warn is a logger with the "raylib:" prefix which logs warning messages to
-	// standard error.
-	warn = log.New(os.Stderr, term.RedBold("raylib:")+" ", log.Lshortfile)
-)
-
-func init() {
-	if !debug {
-		dbg.SetOutput(io.Discard)
-	}
-}
-
-// Enable debug output.
-const debug = true
 
 func init() {
 	// Ensure that main goroutine runs on dedicated thread.

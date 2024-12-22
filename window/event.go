@@ -8,6 +8,7 @@ import (
 	"image"
 
 	"github.com/gammazero/deque"
+	"github.com/mewpkg/clog"
 	"github.com/mewspring/we"
 )
 
@@ -64,7 +65,7 @@ func isModPressed(mods ...we.Mod) bool {
 	for _, mod := range mods {
 		raylibKeys, ok := raylibKeysFromMod[mod]
 		if !ok {
-			warn.Printf("support for keyboard modifier %v using raylib not yet implemented", mod)
+			clog.Warnf("support for keyboard modifier %v using raylib not yet implemented", mod)
 			return false
 		}
 		if !isModifierPressed(raylibKeys) {
@@ -258,7 +259,7 @@ func fillEventQueue() {
 					// skip keyboard modifiers
 					continue
 				}
-				warn.Printf("support for raylib key %v not yet implemented", raylibKey)
+				clog.Warnf("support for raylib key %v not yet implemented", raylibKey)
 			}
 			event := we.KeyPress{
 				Key: key,
@@ -276,7 +277,7 @@ func fillEventQueue() {
 					// skip keyboard modifiers
 					continue
 				}
-				warn.Printf("support for raylib key %v not yet implemented", raylibKey)
+				clog.Warnf("support for raylib key %v not yet implemented", raylibKey)
 			}
 			event := we.KeyRelease{
 				Key: key,

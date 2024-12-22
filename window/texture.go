@@ -13,6 +13,7 @@ import (
 	"time"
 	"unsafe"
 
+	"github.com/mewpkg/clog"
 	"github.com/mewspring/wandi"
 )
 
@@ -168,7 +169,7 @@ func fallbackRGBAImage(src image.Image) *image.RGBA {
 	dr := image.Rect(0, 0, bounds.Dx(), bounds.Dy())
 	dst := image.NewRGBA(dr)
 	draw.Draw(dst, dr, src, bounds.Min, draw.Src)
-	warn.Printf("fallback conversion for non-RGBA image (%T) finished in: %v", src, time.Since(start))
+	clog.Warnf("fallback conversion for non-RGBA image (%T) finished in: %v", src, time.Since(start))
 	return dst
 }
 
